@@ -63,6 +63,7 @@ export default function Navbar() {
           <NavLink to="/wishlist" className={proLinkClass}>Wishlist</NavLink>
           {user && <NavLink to="/orders" className={proLinkClass}>Orders</NavLink>}
           {isAdmin && <NavLink to="/admin/products" className={proLinkClass}>Manage</NavLink>}
+          {isAdmin && <NavLink to="/admin/dashboard" className={proLinkClass}>Dashboard</NavLink>}
         </nav>
 
         <div className="d-none d-lg-flex align-items-center gap-2">
@@ -119,6 +120,11 @@ export default function Navbar() {
                 {isAdmin && (
                   <NavLink to="/admin/products" className={mobileLinkClass} onClick={closeMenu}>
                     <UserIcon /> Manage products
+                  </NavLink>
+                )}
+                {isAdmin && (
+                  <NavLink to="/admin/dashboard" className={mobileLinkClass} onClick={closeMenu}>
+                    <UserIcon /> Dashboard
                   </NavLink>
                 )}
                 <button

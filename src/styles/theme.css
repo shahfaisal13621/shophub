@@ -929,3 +929,38 @@ a { color: #2457d6; }
   box-shadow: 0 0 14px rgba(91, 141, 255, 0.35);
   transform: translateY(-2px);
 }
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--shop-border);
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+.admin-tab-btn {
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--shop-muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.admin-tab-btn.active { color: var(--shop-primary); border-bottom-color: var(--shop-primary); }
+
+.metric-card { border: 1px solid var(--shop-border); border-radius: 14px; padding: 20px; background: #fff; }
+.metric-card-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--shop-muted); margin-bottom: 8px; display: block; }
+.metric-card-value { font-size: 1.6rem; font-weight: 800; color: var(--shop-text); }
+
+.status-select { min-width: 130px; }
+.status-badge-pending { background: #fff4e5; color: #b7791f; }
+.status-badge-processing { background: #e7f0ff; color: #2457d6; }
+.status-badge-shipped { background: #e7f6ed; color: #16734a; }
+.status-badge-cancelled { background: #fde8e8; color: #c0362c; }
+.status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: capitalize; }
+
+.admin-table-row { display: grid; grid-template-columns: 1fr 1.3fr 1fr 0.8fr 1fr; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--shop-border); border-radius: 12px; }
+.admin-table-header { display: grid; grid-template-columns: 1fr 1.3fr 1fr 0.8fr 1fr; gap: 12px; padding: 0 14px; font-size: 0.75rem; text-transform: uppercase; color: var(--shop-muted); font-weight: 700; margin-bottom: 8px; }
+@media (max-width: 768px) {
+  .admin-table-row { grid-template-columns: 1fr; }
+}

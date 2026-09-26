@@ -6,9 +6,18 @@ function formatDate(timestamp) {
   return date.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 }
 
+const STATUS_STYLES = {
+  pending: { className: "status-badge-pending", label: "Pending" },
+  processing: { className: "status-badge-processing", label: "Processing" },
+  shipped: { className: "status-badge-shipped", label: "Shipped" },
+  cancelled: { className: "status-badge-cancelled", label: "Cancelled" },
+  placed: { className: "status-badge-shipped", label: "Placed" },
+};
+
 export default function OrderCard({ order }) {
   const [expanded, setExpanded] = useState(false);
   const itemCount = order.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+  const statusInfo = STATUS_STYLES[order.status] || STATUS_STYLES.pending;
 
   return (
     <div className="order-card-pro">
@@ -31,15 +40,13 @@ export default function OrderCard({ order }) {
               </span>
               <span>{itemCount} item{itemCount === 1 ? "" : "s"}</span>
               <span className="fw-semibold price-accent">${order.total?.toFixed(2)}</span>
+              {order.couponCode && <span className="text-success">Coupon: {order.couponCode}</span>}
             </div>
           </div>
         </div>
 
         <div className="d-flex align-items-center gap-2">
-          <span className="status-badge-placed">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6 9 17l-5-5" /></svg>
-            {order.status}
-          </span>
+          <span className={`status-pill ${statusInfo.className}`}>{statusInfo.label}</span>
           <button type="button" className="btn btn-outline-primary btn-sm" aria-expanded={expanded} onClick={() => setExpanded((v) => !v)}>
             {expanded ? "Hide items" : "View items"}
           </button>

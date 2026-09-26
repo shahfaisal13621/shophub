@@ -1,5 +1,6 @@
-export default function OrderSummary({ items, actionArea }) {
+export default function OrderSummary({ items, actionArea, discount = 0, couponCode }) {
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = Math.max(0, subtotal - discount);
 
   return (
     <div className="card p-3 order-summary-sticky">
@@ -7,12 +8,17 @@ export default function OrderSummary({ items, actionArea }) {
       <div className="d-flex justify-content-between small mb-2">
         <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
       </div>
+      {discount > 0 && (
+        <div className="d-flex justify-content-between small mb-2 text-success">
+          <span>Coupon {couponCode ? `(${couponCode})` : ""}</span><span>-${discount.toFixed(2)}</span>
+        </div>
+      )}
       <div className="d-flex justify-content-between small mb-2">
         <span>Delivery</span><span>Free</span>
       </div>
       <hr />
       <div className="d-flex justify-content-between fw-bold mb-3">
-        <span>Total</span><span className="price-accent">${subtotal.toFixed(2)}</span>
+        <span>Total</span><span className="price-accent">${total.toFixed(2)}</span>
       </div>
       {actionArea}
 

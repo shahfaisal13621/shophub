@@ -4,6 +4,7 @@ import { doc, setDoc, serverTimestamp, collection } from "firebase/firestore";
 import { db } from "../services/firebase.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useCart } from "../context/CartContext.jsx";
+import { getCoupon } from "../services/coupons.jsx";
 import FormField from "../components/FormField.jsx";
 import OrderSummary from "../components/OrderSummary.jsx";
 
@@ -20,6 +21,11 @@ export default function Checkout() {
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState("");
+  const [checkingCoupon, setCheckingCoupon] = useState(false);
+
   const orderRefHolder = useRef(null);
 
   function getOrderRef() {
@@ -27,6 +33,32 @@ export default function Checkout() {
       orderRefHolder.current = doc(collection(db, "users", user.uid, "orders"));
     }
     return orderRefHolder.current;
+  }
+
+  const discount = appliedCoupon
+    ? appliedCoupon.type === "percent"
+      ? Number((subtotal * (appliedCoupon.value / 100)).toFixed(2))
+      : Math.min(appliedCoupon.value, subtotal)
+    : 0;
+  const total = Number((subtotal - discount).toFixed(2));
+
+  async function handleApplyCoupon() {
+    if (!couponInput.trim()) return;
+    setCheckingCoupon(true);
+    setCouponError("");
+    try {
+      const coupon = await getCoupon(couponInput);
+      if (!coupon || !coupon.active) {
+        setCouponError("That coupon code isn't valid.");
+        setAppliedCoupon(null);
+      } else {
+        setAppliedCoupon(coupon);
+      }
+    } catch {
+      setCouponError("Couldn't check that coupon right now.");
+    } finally {
+      setCheckingCoupon(false);
+    }
   }
 
   function validate() {
@@ -47,7 +79,7 @@ export default function Checkout() {
     setSubmitting(true);
     try {
       const orderRef = getOrderRef();
-      await setDoc(orderRef, {
+      const orderData = {
         items: cart.map((item) => ({
           id: item.id,
           title: item.title,
@@ -57,10 +89,20 @@ export default function Checkout() {
         })),
         delivery: { fullName, phone, address, city },
         subtotal,
-        total: subtotal,
-        status: "placed",
+        discount,
+        couponCode: appliedCoupon ? appliedCoupon.code : null,
+        total,
+        status: "pending",
         createdAt: serverTimestamp(),
+      };
+
+      await setDoc(orderRef, orderData);
+      await setDoc(doc(db, "adminOrders", orderRef.id), {
+        ...orderData,
+        uid: user.uid,
+        itemCount: cart.reduce((sum, item) => sum + item.quantity, 0),
       });
+
       clearCart();
       navigate("/orders", { state: { confirmedOrderId: orderRef.id } });
     } catch {
@@ -117,8 +159,31 @@ export default function Checkout() {
           </div>
         </div>
         <div className="col-12 col-lg-4">
+          <div className="section-card mb-3">
+            <p className="section-card-heading mb-2" style={{ fontSize: "0.9rem" }}>Have a coupon?</p>
+            <div className="d-flex gap-2">
+              <input
+                className="form-control text-uppercase"
+                placeholder="Coupon code"
+                value={couponInput}
+                onChange={(e) => setCouponInput(e.target.value)}
+              />
+              <button type="button" className="btn btn-outline-primary" disabled={checkingCoupon} onClick={handleApplyCoupon}>
+                {checkingCoupon ? "..." : "Apply"}
+              </button>
+            </div>
+            {couponError && <p className="text-danger small mt-2 mb-0">{couponError}</p>}
+            {appliedCoupon && (
+              <p className="text-success small mt-2 mb-0">
+                "{appliedCoupon.code}" applied — you're saving ${discount.toFixed(2)}.
+              </p>
+            )}
+          </div>
+
           <OrderSummary
             items={cart}
+            discount={discount}
+            couponCode={appliedCoupon?.code}
             actionArea={
               <button type="submit" form="checkout-form" className="btn btn-primary w-100 btn-glow" disabled={submitting}>
                 {submitting ? "Placing order..." : "Place demo order"}

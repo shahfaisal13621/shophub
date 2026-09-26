@@ -23,6 +23,7 @@ import Checkout from "./pages/Checkout.jsx";
 import Orders from "./pages/Orders.jsx";
 import ManageProducts from "./pages/ManageProducts.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 const ToastContext = createContext(() => {});
 export function useToast() {
@@ -45,6 +46,7 @@ const PAGE_TITLES = [
   { test: (p) => p === "/checkout", title: "ShopHub – Checkout" },
   { test: (p) => p === "/orders", title: "ShopHub – Orders" },
   { test: (p) => p === "/admin/products", title: "ShopHub – Manage products" },
+  { test: (p) => p === "/admin/dashboard", title: "ShopHub – Admin dashboard" },
 ];
 
 function getPageTitle(pathname) {
@@ -94,6 +96,7 @@ export default function App() {
                           <Route path="/checkout" element={<ProtectedRoute><PageTransition><Checkout /></PageTransition></ProtectedRoute>} />
                           <Route path="/orders" element={<ProtectedRoute><PageTransition><Orders /></PageTransition></ProtectedRoute>} />
                           <Route path="/admin/products" element={<AdminRoute><PageTransition><ManageProducts /></PageTransition></AdminRoute>} />
+                          <Route path="/admin/dashboard" element={<AdminRoute><PageTransition><AdminDashboard /></PageTransition></AdminRoute>} />
                           <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
                         </Routes>
                       </AnimatePresence>
