@@ -972,3 +972,30 @@ a { color: #2457d6; }
   margin-bottom: 0;
   line-height: 1.4;
 }
+.legal-content { max-width: 760px; }
+.legal-content h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  color: var(--shop-text);
+}
+.legal-content h2:first-child { margin-top: 0; }
+.legal-content p, .legal-content li {
+  color: var(--shop-muted);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.legal-content ul { padding-left: 20px; }
+
+.footer-legal-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.footer-legal-links a {
+  color: #7f8fb3;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+.footer-legal-links a:hover { color: #eaf1ff; }

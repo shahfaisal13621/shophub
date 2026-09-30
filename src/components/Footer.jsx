@@ -120,6 +120,10 @@ export default function Footer() {
 
       <div className="shop-container footer-bottom">
         <span>© {new Date().getFullYear()} ShopHub. All rights reserved.</span>
+        <nav className="footer-legal-links">
+          <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/terms">Terms &amp; Conditions</Link>
+        </nav>
       </div>
     </footer>
   );
