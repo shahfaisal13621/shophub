@@ -29,7 +29,7 @@ export default function OrderSummary({ items, actionArea, discount = 0, couponCo
         </span>
         <span className="summary-trust-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6 9 17l-5-5" /></svg>
-          Secure demo checkout, no real payment
+          Secure checkout
         </span>
       </div>
     </div>

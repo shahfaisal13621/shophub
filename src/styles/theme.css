@@ -964,3 +964,11 @@ a { color: #2457d6; }
 @media (max-width: 768px) {
   .admin-table-row { grid-template-columns: 1fr; }
 }
+.checkout-fine-print {
+  font-size: 0.72rem;
+  color: var(--shop-muted);
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0;
+  line-height: 1.4;
+}

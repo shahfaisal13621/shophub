@@ -148,14 +148,6 @@ export default function Checkout() {
               <FormField id="checkout-address" label="Address" value={address} onChange={setAddress} error={errors.address} autoComplete="street-address" />
               {formError && <p className="text-danger small" role="alert">{formError}</p>}
             </form>
-
-            <div className="demo-notice mt-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 16v-4M12 8h.01" />
-              </svg>
-              This is a demo checkout — no real payment is collected.
-            </div>
           </div>
         </div>
         <div className="col-12 col-lg-4">
@@ -185,9 +177,14 @@ export default function Checkout() {
             discount={discount}
             couponCode={appliedCoupon?.code}
             actionArea={
-              <button type="submit" form="checkout-form" className="btn btn-primary w-100 btn-glow" disabled={submitting}>
-                {submitting ? "Placing order..." : "Place demo order"}
-              </button>
+              <div>
+                <button type="submit" form="checkout-form" className="btn btn-primary w-100 btn-glow" disabled={submitting}>
+                  {submitting ? "Placing order..." : "Place order"}
+                </button>
+                <p className="checkout-fine-print">
+                  This is a demo checkout — no real payment is collected.
+                </p>
+              </div>
             }
           />
         </div>

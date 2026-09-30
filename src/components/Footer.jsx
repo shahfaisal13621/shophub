@@ -60,7 +60,7 @@ export default function Footer() {
               <Logo light />
             </Link>
             <p className="footer-tagline mt-2">
-              Everyday products, one simple store — built as a student showcase project with a techy edge.
+              Everyday products. One simple store.
             </p>
             <div className="social-row">
               {SOCIAL_LINKS.map((social) => (
@@ -104,9 +104,9 @@ export default function Footer() {
           </div>
 
           <div className="col-12 col-md-4">
-            <p className="footer-heading">About this build</p>
+            <p className="footer-heading">Customer Care</p>
             <p className="footer-tagline">
-              A demo checkout — no real payment is collected. Product data via DummyJSON.
+              Have a question about an order or a product? Reach out any time using the links to the left.
             </p>
             <button type="button" className="back-to-top mt-3" onClick={scrollToTop}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -119,13 +119,7 @@ export default function Footer() {
       </div>
 
       <div className="shop-container footer-bottom">
-        <span>© {new Date().getFullYear()} ShopHub. Built by Faisal — student project, not a real store.</span>
-        <span className="footer-stack-badge">
-          Built with
-          <span>React</span>
-          <span>Firebase</span>
-          <span>Bootstrap</span>
-        </span>
+        <span>© {new Date().getFullYear()} ShopHub. All rights reserved.</span>
       </div>
     </footer>
   );
